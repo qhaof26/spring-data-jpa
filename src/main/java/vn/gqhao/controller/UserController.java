@@ -2,8 +2,12 @@ package vn.gqhao.controller;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.gqhao.dto.request.UserRequestDTO;
+import vn.gqhao.dto.response.ResponseData;
+import vn.gqhao.dto.response.ResponseSuccess;
 
 import java.util.List;
 
@@ -12,39 +16,40 @@ import java.util.List;
 public class UserController {
 
     @GetMapping("/{userId}")
-    public UserRequestDTO getUserById(@Min (1) @PathVariable("userId") int id){
+    public ResponseData<Object> getUserById(@Min (1) @PathVariable("userId") int id){
         System.out.println("user id: " + id);
-        return new UserRequestDTO("Giang", "Hao", "0939434", "hg@gmail.com");
+        return new ResponseData<>(HttpStatus.OK.value(), "get user", new UserRequestDTO("Giang", "Hao", "0939434", "hg@gmail.com"));
     }
 
     @GetMapping(value = "/list" /*, headers = "apiKey=v1.0" */)
-    public List<UserRequestDTO> getListUser(
+    public ResponseData<List<UserRequestDTO>> getListUser(
             @RequestParam(defaultValue = "0") int pageNo,
             @RequestParam(defaultValue = "5") int pageSize){
         System.out.println("Get list success !");
-        return List.of(new UserRequestDTO("Giang", "Hao", "0939434", "hg@gmail.com")
-                        ,new UserRequestDTO("Giang", "Hao", "0939434", "hg@gmail.com"));
+        return new ResponseData<>(HttpStatus.OK.value(), "Get List User",
+                                    List.of(new UserRequestDTO("Giang", "Hao", "0939434", "hg@gmail.com"),
+                                        new UserRequestDTO("Giang", "Hao", "0939434", "hg@gmail.com")));
     }
     @PostMapping("/")
-    public String addUser(@Valid @RequestBody UserRequestDTO userDTO){
-        return "user added !";
+    public ResponseData<Integer> addUser(@Valid @RequestBody UserRequestDTO userDTO){
+        return new ResponseData<>(HttpStatus.CREATED.value(), "Created user !", 1);
     }
 
-    @PutMapping("/{userId}")
-    public String updateUser(@PathVariable("userId") int id, @RequestBody UserRequestDTO userDTO){
+    @PutMapping("/{userId}") //update full
+    public ResponseData<?> updateUser(@PathVariable("userId") int id, @RequestBody UserRequestDTO userDTO){
         System.out.println("Update user id: " + id);
-        return "updated !";
+        return new ResponseData<>(HttpStatus.ACCEPTED.value(), "User updated successfully !");
     }
 
-    @PatchMapping("/{userId}")
-    public String changeStatus(@PathVariable("userId") int id, @RequestParam(required = false) boolean status){
+    @PatchMapping("/{userId}") //update 1 phan
+    public ResponseData<?> changeStatus(@PathVariable("userId") int id, @RequestParam(required = false) boolean status){
         System.out.println("User id: " + id + " is changed status " + status);
-        return "status changed !";
+        return new ResponseData<>(HttpStatus.ACCEPTED.value(), "User changed status !");
     }
 
     @DeleteMapping("/{userId}")
-    public String deleteUser(@PathVariable("userId") int id){
+    public ResponseData<?> deleteUser(@PathVariable("userId") int id){
         System.out.println("delete user: " + id);
-        return "deleted user !";
+        return new ResponseData<>(HttpStatus.NO_CONTENT.value(), "User deleted !");
     }
 }
