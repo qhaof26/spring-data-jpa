@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Pattern;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class UserRequestDTO implements Serializable {
@@ -22,7 +23,8 @@ public class UserRequestDTO implements Serializable {
     @NotNull(message = "dateOfBirth must be not null")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @JsonFormat(pattern = "MM/dd/yyyy")
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
+
     public UserRequestDTO(String firstName, String lastName, String phone, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -62,11 +64,11 @@ public class UserRequestDTO implements Serializable {
         this.email = email;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 }
