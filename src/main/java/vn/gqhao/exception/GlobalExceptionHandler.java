@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.time.LocalDate;
 
@@ -54,6 +55,8 @@ public class GlobalExceptionHandler {
         return errorResponse;
     }
 
+    //Exception: NoResourceFoundException - Http Status: 404 Not Found
+
     //Exception: MethodArgumentTypeMismatchException - Http Status: 500
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -84,7 +87,7 @@ public class GlobalExceptionHandler {
     }
 
     //Custom Exception: ResourceNotFoundException
-    @ExceptionHandler(ResourceNotFoundException.class)
+    @ExceptionHandler({ResourceNotFoundException.class, NoResourceFoundException.class})
     public ErrorResponse handleResourceNotFoundException(Exception e, WebRequest request) {
         System.out.println("log: ResourceNotFoundException");
         return new ErrorResponse(LocalDate.now(),
@@ -92,5 +95,17 @@ public class GlobalExceptionHandler {
                 request.getDescription(false).replace("uri=", ""),
                 HttpStatus.NOT_FOUND.getReasonPhrase(),
                 e.getMessage());
+    }
+
+    @ExceptionHandler(AppException.class)
+    public ErrorResponse handleAppException(AppException e, WebRequest request) {
+        System.out.println("log: AppException");
+        return new ErrorResponse(
+                LocalDate.now(),
+                e.getErrorCode().getCode(),
+                request.getDescription(false).replace("uri=", ""),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                e.getErrorCode().getMessage()
+        );
     }
 }

@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.LocalDate;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorResponse {
     private LocalDate dateTime;
     private int status;
     private String path;
     private String error;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+
     private String message;
 
     public ErrorResponse() {
