@@ -1,6 +1,7 @@
 package vn.gqhao.exception;
 
 import jakarta.validation.ConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -15,6 +16,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import java.time.LocalDate;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     //Exception: MethodArgumentNotValidException - Http Status: 400 BAD REQUEST - Message: [Email invalid format !]
@@ -33,17 +35,17 @@ public class GlobalExceptionHandler {
         // get message error by substring []
         String errorMessage = e.getMessage();
         if (e instanceof MethodArgumentNotValidException) {
-            System.out.println("log: MethodArgumentNotValidException");
+            log.error("log: MethodArgumentNotValidException");
             errorResponse.setError("Payload Invalid !");
             int start = errorMessage.lastIndexOf("[");
             int end = errorMessage.lastIndexOf("]");
             errorMessage = errorMessage.substring(start + 1, end - 1);
         } else if (e instanceof ConstraintViolationException) {
-            System.out.println("log: ConstraintViolationException");
+            log.error("log: ConstraintViolationException");
             errorResponse.setError("Path Variable Invalid !");
             errorMessage = errorMessage.substring(errorMessage.indexOf(" ") + 1);
         } else if (e instanceof HandlerMethodValidationException) {
-            System.out.println("log: HandlerMethodValidationException");
+            log.error("log: HandlerMethodValidationException");
             errorResponse.setError("Path variable invalid !");
             errorMessage = errorMessage.substring(errorMessage.indexOf("V"));
         } else if (e instanceof HttpMessageNotReadableException) {
@@ -58,7 +60,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleMethodArgumentTypeMismatchException(Exception e, WebRequest request) {
-        System.out.println("log: MethodArgumentTypeMismatchException");
+        log.error("log: MethodArgumentTypeMismatchException");
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setDateTime(LocalDate.now());
         errorResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -74,7 +76,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     public ErrorResponse handleHttpRequestMethodNotSupportedException(Exception e, WebRequest request) {
-        System.out.println("log: HttpRequestMethodNotSupportedException");
+        log.error("log: HttpRequestMethodNotSupportedException");
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setDateTime(LocalDate.now());
         errorResponse.setStatus(HttpStatus.METHOD_NOT_ALLOWED.value());
@@ -86,7 +88,7 @@ public class GlobalExceptionHandler {
     //Custom Exception: ResourceNotFoundException
     @ExceptionHandler(ResourceNotFoundException.class)
     public ErrorResponse handleResourceNotFoundException(Exception e, WebRequest request) {
-        System.out.println("log: ResourceNotFoundException");
+        log.error("log: ResourceNotFoundException");
         return new ErrorResponse(LocalDate.now(),
                 HttpStatus.NOT_FOUND.value(),
                 request.getDescription(false).replace("uri=", ""),
