@@ -7,11 +7,12 @@ import vn.gqhao.model.User;
 @Component
 public class UserMapper {
     public static UserRequestDTO toUserRequestDTO(User user) {
-        return new UserRequestDTO(user.getUserName(),
-                user.getPassWord(),
-                user.getFullName(),
-                user.getPhone(),
-                user.getDateOfBirth());
+        return UserRequestDTO.builder()
+                .userName(user.getUserName())
+                .passWord(user.getPassWord())
+                .phone(user.getPhone())
+                .dateOfBirth(user.getDateOfBirth())
+                .build();
     }
 
     public static User toUser(UserRequestDTO userRequestDTO) {

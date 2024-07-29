@@ -1,7 +1,5 @@
-package vn.gqhao.config;
+package vn.gqhao.configuration;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 //import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 // import org.springframework.security.crypto.password.PasswordEncoder;
