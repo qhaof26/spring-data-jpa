@@ -1,6 +1,7 @@
 package vn.gqhao.service.impl;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import vn.gqhao.dto.mapper.UserMapper;
 import vn.gqhao.dto.request.user.UserRequestDTO;
@@ -15,13 +16,11 @@ import vn.gqhao.service.UserService;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    
 
     @Override
     public List<User> getAllUser() {

@@ -1,7 +1,9 @@
 package vn.gqhao.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
 
+@Builder
 public class ResponseData<T> {
     private int status;
     private String message;
