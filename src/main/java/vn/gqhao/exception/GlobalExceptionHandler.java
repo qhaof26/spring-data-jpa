@@ -1,6 +1,7 @@
 package vn.gqhao.exception;
 
 import jakarta.validation.ConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 import java.time.LocalDate;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     //Exception: MethodArgumentNotValidException - Http Status: 400 BAD REQUEST - Message: [Email invalid format !]
@@ -89,7 +91,7 @@ public class GlobalExceptionHandler {
     //Custom Exception: ResourceNotFoundException
     @ExceptionHandler({ResourceNotFoundException.class, NoResourceFoundException.class})
     public ErrorResponse handleResourceNotFoundException(Exception e, WebRequest request) {
-        System.out.println("log: ResourceNotFoundException");
+        log.error("log: ResourceNotFoundException");
         return new ErrorResponse(LocalDate.now(),
                 HttpStatus.NOT_FOUND.value(),
                 request.getDescription(false).replace("uri=", ""),
@@ -99,7 +101,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AppException.class)
     public ErrorResponse handleAppException(AppException e, WebRequest request) {
-        System.out.println("log: AppException");
+        log.error("log: AppException");
         return new ErrorResponse(
                 LocalDate.now(),
                 e.getErrorCode().getCode(),
