@@ -3,19 +3,23 @@ package vn.gqhao.service;
 import org.springframework.stereotype.Service;
 import vn.gqhao.dto.request.user.UserRequestDTO;
 import vn.gqhao.dto.request.user.UserUpdateDTO;
+import vn.gqhao.dto.response.UserDetailResponese;
 import vn.gqhao.model.User;
+import vn.gqhao.util.UserStatus;
 
 import java.util.List;
 
 @Service
 public interface UserService {
-    List<User> getAllUser();
+    long saveUser(UserRequestDTO userRequestDTO);
 
-    User getUserByUsername(String userName);
+    void updateUser(long userId, UserRequestDTO userRequestDTO);
 
-    User createUser(UserRequestDTO userRequestDTO);
+    void changeStatus(long userId, UserStatus status);
 
-    void deleteUserByUserName(String userName);
+    void deleteUser(long userId);
 
-    User updateUser(String id, UserUpdateDTO userUpdateDTO);
+    UserDetailResponese getUser(long userId);
+
+    List<UserDetailResponese> getAllUser(int pageNo, int pageSize);
 }

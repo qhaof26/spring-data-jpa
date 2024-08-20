@@ -2,9 +2,9 @@ spring:
   application:
     name: spring-data-jpa tutorial
   datasource:
+    url: jdbc:mysql://localhost:3306/spring_jpa
     username: root
-    url: jdbc:mysql://localhost:3306/tutorial_springboot3
-    password: ''
+    password: root
   jpa:
     show-sql: 'true'
     hibernate:

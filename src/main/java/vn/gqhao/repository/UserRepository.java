@@ -7,16 +7,16 @@ import vn.gqhao.model.User;
 import java.util.List;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAll();
 
     boolean existsUserByUserName(String userName);
 
-    boolean existsUserById(String id);
+    boolean existsUserById(long id);
 
     User findUserByUserName(String userName);
 
-    User findUserById(String id);
+    User findUserById(long id);
 
     void removeUserByUserName(String userName);
 }

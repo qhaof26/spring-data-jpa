@@ -1,67 +1,67 @@
 package vn.gqhao.model;
 
 import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+import vn.gqhao.util.Gender;
+import vn.gqhao.util.UserStatus;
+import vn.gqhao.util.UserType;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "User")
-public class User {
+@Table(name = "tbl_user")
+public class User extends AbstractEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
-    private String userName;
-    private String passWord;
-    private String fullName;
-    private String phone;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    private String firstName;
+
+    private String lastName;
+
+    @Temporal(TemporalType.DATE)
     private LocalDate dateOfBirth;
 
-    public String getId() {
-        return id;
-    }
+    @Enumerated(EnumType.STRING)
+    //@JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    //@Column(name = "gender")
+    private Gender gender;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    private String userName;
 
-    public String getUserName() {
-        return userName;
-    }
+    private String passWord;
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+    private String phone;
 
-    public String getPassWord() {
-        return passWord;
-    }
+    @Enumerated(EnumType.STRING)
+    //@JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    //@Column(name = "status")
+    private UserStatus userStatus;
 
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
-    }
+    @Enumerated(EnumType.STRING)
+    //@JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    //@Column(name = "type")
+    private UserType userType;
 
-    public String getFullName() {
-        return fullName;
-    }
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    private Set<Address> addresses = new HashSet<>();
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    private void saveAddress(Address address) {
+        if (address == null) {
+            if (addresses == null) {
+                addresses = new HashSet<>();
+            }
+            addresses.add(address);
+            address.setUser(this); //save user id
+        }
     }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-    
 }
