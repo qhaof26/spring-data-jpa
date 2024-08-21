@@ -42,3 +42,30 @@ public enum UserStatus {
 @JdbcTypeCode(SqlTypes.NAMED_ENUM)
 private Gender gender;
   ```
+
+`pageNo` trong springboot mặc định bắt đầu là 0 (chú ý khi pageNo > 0).
+
+`pageSize` số lượng records.
+
+```java
+    public ResponseData<?> getListUser(
+        @RequestParam(defaultValue = "0", required = false) int pageNo,
+        @Min(10) @RequestParam(defaultValue = "10", required = false) int pageSize,
+        @RequestParam(required = false) String sortBy) {
+    try {
+        return new ResponseData<>(HttpStatus.OK.value(), "Get list user successfully !", userService.getAllUsersWithSortBy(pageNo, pageSize, sortBy));
+    } catch (Exception e) {
+        return new ResponseError(HttpStatus.NO_CONTENT.value(), "Get list user fail !");
+    }
+}
+```
+
+`@RequestParam`: Tham số truyền vào.
+`@RequestBody`: Đối tượng truyền vào.
+
+Trong **repository**: delete không cần thiết phải try catch(Có thì xóa, Không thì thôi).
+
+**Best practices DTO**:
+
+- Dùng Wrapper prim thay cho primitive. Wrapper cho phép null, còn primitive thì không.
+- `Wrapper` lưu vào vùng nhớ `heap` (lưu đối tượng) - `primitive` lưu vào stack (nếu là biến cục bộ).
