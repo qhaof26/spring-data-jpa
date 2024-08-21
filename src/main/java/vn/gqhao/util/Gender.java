@@ -3,10 +3,10 @@ package vn.gqhao.util;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum Gender {
-    //@JsonProperty("male")
+    @JsonProperty("male")
     MALE,
-    //@JsonProperty("female")
+    @JsonProperty("female")
     FEMALE,
-    //@JsonProperty("other")
+    @JsonProperty("other")
     OTHER;
 }

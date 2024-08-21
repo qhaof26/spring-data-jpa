@@ -2,8 +2,10 @@ package vn.gqhao.dto.request.address;
 
 import lombok.Getter;
 
+import java.io.Serializable;
+
 @Getter
-public class AddressRequestDTO {
+public class AddressRequestDTO implements Serializable {
     private String apartmentNumber;
     private String floor;
     private String building;

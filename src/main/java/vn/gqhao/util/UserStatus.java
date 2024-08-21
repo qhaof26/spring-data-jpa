@@ -3,10 +3,10 @@ package vn.gqhao.util;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum UserStatus {
-    //@JsonProperty("active")
+    @JsonProperty("active")
     ACTIVE,
-    //@JsonProperty("inactive")
+    @JsonProperty("inactive")
     INACTIVE,
-    //@JsonProperty("none")
+    @JsonProperty("none")
     NONE;
 }
