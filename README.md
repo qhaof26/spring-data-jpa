@@ -43,9 +43,12 @@ public enum UserStatus {
 private Gender gender;
   ```
 **3. Pagination (Phân trang)**
-`pageNo` trong springboot mặc định bắt đầu là 0 (chú ý khi pageNo > 0).
 
-`pageSize` số lượng records.
+`pageNo`: trang bắt đầu. Trong springboot mặc định bắt đầu là 0 (chú ý khi pageNo > 0).
+
+`pageSize`: số lượng records.
+
+**Example:** khi số lượng records = 30, pageSize = 10. Nếu pageNo = 0 -> (1->10) || pageNo = 1 -> (11->20).
 
 ```java
     public ResponseData<?> getListUser(
