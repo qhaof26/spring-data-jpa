@@ -42,7 +42,7 @@ public enum UserStatus {
 @JdbcTypeCode(SqlTypes.NAMED_ENUM)
 private Gender gender;
   ```
-
+**3. Pagination (Phân trang)**
 `pageNo` trong springboot mặc định bắt đầu là 0 (chú ý khi pageNo > 0).
 
 `pageSize` số lượng records.
