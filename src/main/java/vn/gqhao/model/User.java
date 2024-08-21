@@ -44,19 +44,19 @@ public class User extends AbstractEntity {
 
     @Enumerated(EnumType.STRING)
     //@JdbcTypeCode(SqlTypes.NAMED_ENUM)
-    //@Column(name = "status")
-    private UserStatus userStatus;
+    @Column(name = "status")
+    private UserStatus status;
 
     @Enumerated(EnumType.STRING)
     //@JdbcTypeCode(SqlTypes.NAMED_ENUM)
-    //@Column(name = "type")
-    private UserType userType;
+    @Column(name = "type")
+    private UserType type;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private Set<Address> addresses = new HashSet<>();
 
-    private void saveAddress(Address address) {
-        if (address == null) {
+    public void saveAddress(Address address) {
+        if (address != null) {
             if (addresses == null) {
                 addresses = new HashSet<>();
             }

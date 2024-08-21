@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import vn.gqhao.dto.request.address.AddressRequestDTO;
 import vn.gqhao.util.Gender;
 import vn.gqhao.util.UserStatus;
+import vn.gqhao.util.validator.GenderSubset;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -37,24 +38,26 @@ public class UserRequestDTO implements Serializable {
     @JsonFormat(pattern = "MM/dd/yyyy")
     private LocalDate dateOfBirth;
 
-    @Pattern(regexp = "^male|female|other$", message = "gender must be one in {male, female, other}")
-    //@GenderSubset(anyOf = {MALE, FEMALE, OTHER})
+    //@Pattern(regexp = "^male|female|other$", message = "gender must be one in {male, female, other}")
+    @GenderSubset(anyOf = {MALE, FEMALE, OTHER})
     private Gender gender;
 
     @NotNull(message = "username must be not null")
     private String username;
 
+    @NotNull(message = "password must be not null")
     private String password;
 
     @NotNull(message = "type must be not null")
     //@EnumValue(name = "type", enumClass = UserType.class)
-    private String type;
+    private String userType;
 
     @NotEmpty(message = "addresses can not empty")
     private Set<AddressRequestDTO> addresses;
 
     //@EnumPattern(name = "status", regexp = "ACTIVE|INACTIVE|NONE")
     private UserStatus status;
+
 
     public UserRequestDTO(String firstName, String lastName, String phone) {
         this.firstName = firstName;

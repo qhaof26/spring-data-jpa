@@ -4,14 +4,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
+// 1 cach code khac cua response data
 public class ResponseSuccess extends ResponseEntity<ResponseSuccess.PayLoad> {
     //ResponseEntity (body-PayLoad, message, status code )
     // PUT, PATCH, DELETE
     public ResponseSuccess(HttpStatusCode status, String message) {
         super(new PayLoad(status.value(), message), HttpStatus.OK);
     }
+
     // GET, POST
-    public ResponseSuccess(HttpStatus status, String message, Object data){
+    public ResponseSuccess(HttpStatus status, String message, Object data) {
         super(new PayLoad(status.value(), message, data), HttpStatus.OK);
     }
 
