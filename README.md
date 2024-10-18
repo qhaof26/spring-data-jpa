@@ -44,7 +44,7 @@ private Gender gender;
   ```
 **3. Pagination (Phân trang)**
 
-`pageNo`: trang bắt đầu. Trong springboot mặc định bắt đầu là 0 (chú ý khi pageNo > 0).
+`pageNo`: trang bắt đầu (trừ đi 1). Trong springboot mặc định bắt đầu là 0 (~ Mảng: bắt đầu từ 0) (chú ý khi pageNo > 0).
 
 `pageSize`: số lượng records.
 
